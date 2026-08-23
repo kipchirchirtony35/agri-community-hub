@@ -25,7 +25,7 @@ export default function Weather() {
     return () => clearTimeout(timer);
   }, []);
 
-  if (loading) return <section className="card">Loading weather...</section>;
+  if (loading) return <section id="weather" className="card">Loading weather...</section>;
 
   return (
     <section id="weather" className="card">

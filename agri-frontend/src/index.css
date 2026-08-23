@@ -18,10 +18,11 @@ body {
 }
 
 /* Navbar */
+/* Navbar */
 .navbar {
-  background: #1b5e20;
+  background: #185a1b; /* Darker forest green matching the image */
   color: white;
-  padding: 14px 24px;
+  padding: 12px 32px;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -29,16 +30,59 @@ body {
   top: 0;
   z-index: 100;
 }
-.nav-brand { font-size: 1.4rem; font-weight: 700; }
-.nav-links { display: flex; gap: 18px; align-items: center; flex-wrap: wrap; }
-.nav-links a { color: white; text-decoration: none; font-weight: 500; }
-.admin-btn {
-  background: #ffeb3b;
-  color: #1b5e20 !important;
-  padding: 6px 14px;
-  border-radius: 6px;
-  font-weight: 600;
+
+.nav-brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: white;
 }
+
+.nav-links {
+  display: flex;
+  gap: 24px;
+  align-items: center;
+}
+
+/* Reset button styles to behave like clean text links */
+.nav-link {
+  background: transparent;
+  border: none;
+  color: white;
+  font-weight: 700;
+  font-size: 1rem;
+  cursor: pointer;
+  padding: 0;
+  font-family: inherit;
+  transition: opacity 0.2s ease;
+}
+
+.nav-link:hover {
+  opacity: 0.85;
+}
+
+/* Yellow CTA button styling for Login / dashboard link */
+.admin-btn {
+  background-color: #ffeb3b; /* Vibrant yellow */
+  color: #185a1b !important; /* Dark green text */
+  border: none;
+  padding: 8px 20px;
+  border-radius: 6px;
+  font-weight: 700;
+  font-size: 0.95rem;
+  text-decoration: none;
+  cursor: pointer;
+  width: auto;
+  margin: 0;
+  transition: background-color 0.2s ease;
+}
+
+.admin-btn:hover {
+  background-color: #fdd835;
+}
+
 .nav-logout {
   width: auto;
   background: transparent;
@@ -49,7 +93,6 @@ body {
   font-weight: 600;
 }
 .nav-logout:hover { background: rgba(255,255,255,0.15); }
-
 /* Hero */
 .hero {
   text-align: center;

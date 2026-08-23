@@ -1,4 +1,4 @@
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 
 const ROLE_LABEL = {
@@ -10,21 +10,44 @@ const ROLE_LABEL = {
 export default function Navbar() {
   const { user, logout } = useAuth();
   const navigate = useNavigate();
+  const location = useLocation();
 
   const handleLogout = () => {
     logout();
     navigate("/");
   };
 
+  const scrollToSection = (id) => {
+    if (location.pathname !== "/") {
+      navigate("/");
+      setTimeout(() => {
+        document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });
+      }, 100);
+    } else {
+      document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });
+    }
+  };
+
   return (
     <nav className="navbar">
       <div className="nav-brand">🌾 AgriConnect</div>
+
       <div className="nav-links">
-        <a href="#weather">Weather</a>
-        <a href="#harvest">Harvest</a>
-        <a href="#posts">Posts</a>
-        <a href="#inquiries">Inquiries</a>
-        <a href="#officers">Officers</a>
+        <button type="button" className="nav-link" onClick={() => scrollToSection("weather")}>
+          Weather
+        </button>
+        <button type="button" className="nav-link" onClick={() => scrollToSection("harvest")}>
+          Harvest
+        </button>
+        <button type="button" className="nav-link" onClick={() => scrollToSection("posts")}>
+          Posts
+        </button>
+        <button type="button" className="nav-link" onClick={() => scrollToSection("inquiries")}>
+          Inquiries
+        </button>
+        <button type="button" className="nav-link" onClick={() => scrollToSection("officers")}>
+          Officers
+        </button>
 
         {user ? (
           <>
