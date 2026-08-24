@@ -1,5 +1,6 @@
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
+import { useState } from "react";
 
 const ROLE_LABEL = {
   member: "My Dashboard",
@@ -11,15 +12,17 @@ export default function Navbar() {
   const { user, logout } = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
+  const [menuOpen, setMenuOpen] = useState(false);
 
   const handleLogout = () => {
     logout();
     navigate("/");
+    setMenuOpen(false);
   };
 
   const scrollToSection = (id) => {
+    setMenuOpen(false);
     if (location.pathname !== "/") {
-      // Not on the home page — navigate there first, then scroll after render
       navigate("/");
       setTimeout(() => {
         document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });
@@ -31,9 +34,23 @@ export default function Navbar() {
 
   return (
     <nav className="navbar">
-      <div className="nav-brand">🌾 AgriConnect</div>
+      <div className="navbar-top">
+        <div className="nav-brand">🌾 AgriConnect</div>
 
-         <div className="nav-links">
+        <button
+          type="button"
+          className={`hamburger ${menuOpen ? "open" : ""}`}
+          aria-label="Toggle navigation menu"
+          aria-expanded={menuOpen}
+          onClick={() => setMenuOpen((open) => !open)}
+        >
+          <span></span>
+          <span></span>
+          <span></span>
+        </button>
+      </div>
+
+      <div className={`nav-links ${menuOpen ? "open" : ""}`}>
         <button type="button" className="nav-link" onClick={() => scrollToSection("weather")}>
           Weather
         </button>
@@ -49,11 +66,10 @@ export default function Navbar() {
         <button type="button" className="nav-link" onClick={() => scrollToSection("officers")}>
           Officers
         </button>
-    
 
         {user ? (
           <>
-            <Link to={`/${user.role}`} className="admin-btn">
+            <Link to={`/${user.role}`} className="admin-btn" onClick={() => setMenuOpen(false)}>
               {ROLE_LABEL[user.role]}
             </Link>
             <button type="button" className="nav-logout" onClick={handleLogout}>
@@ -61,7 +77,7 @@ export default function Navbar() {
             </button>
           </>
         ) : (
-          <Link to="/login" className="admin-btn">
+          <Link to="/login" className="admin-btn" onClick={() => setMenuOpen(false)}>
             Login
           </Link>
         )}

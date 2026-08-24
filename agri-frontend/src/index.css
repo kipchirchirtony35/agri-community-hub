@@ -20,15 +20,18 @@ body {
 /* Navbar */
 /* Navbar */
 .navbar {
-  background: #185a1b; /* Darker forest green matching the image */
+  background: #185a1b;
   color: white;
-  padding: 12px 32px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+  padding: 12px 24px;
   position: sticky;
   top: 0;
   z-index: 100;
+}
+
+.navbar-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
 .nav-brand {
@@ -46,7 +49,6 @@ body {
   align-items: center;
 }
 
-/* Reset button styles to behave like clean text links */
 .nav-link {
   background: transparent;
   border: none;
@@ -57,16 +59,13 @@ body {
   padding: 0;
   font-family: inherit;
   transition: opacity 0.2s ease;
+  white-space: nowrap;
 }
+.nav-link:hover { opacity: 0.85; }
 
-.nav-link:hover {
-  opacity: 0.85;
-}
-
-/* Yellow CTA button styling for Login / dashboard link */
 .admin-btn {
-  background-color: #ffeb3b; /* Vibrant yellow */
-  color: #185a1b !important; /* Dark green text */
+  background-color: #ffeb3b;
+  color: #185a1b !important;
   border: none;
   padding: 8px 20px;
   border-radius: 6px;
@@ -76,12 +75,10 @@ body {
   cursor: pointer;
   width: auto;
   margin: 0;
+  white-space: nowrap;
   transition: background-color 0.2s ease;
 }
-
-.admin-btn:hover {
-  background-color: #fdd835;
-}
+.admin-btn:hover { background-color: #fdd835; }
 
 .nav-logout {
   width: auto;
@@ -91,8 +88,69 @@ body {
   padding: 6px 14px;
   margin: 0;
   font-weight: 600;
+  white-space: nowrap;
 }
 .nav-logout:hover { background: rgba(255,255,255,0.15); }
+
+/* Hamburger button — hidden by default, shown only on small screens */
+.hamburger {
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  gap: 5px;
+  width: auto;
+  background: transparent;
+  border: none;
+  padding: 6px;
+  margin: 0;
+  cursor: pointer;
+}
+.hamburger span {
+  display: block;
+  width: 24px;
+  height: 3px;
+  background: white;
+  border-radius: 2px;
+  transition: transform 0.25s ease, opacity 0.25s ease;
+}
+/* Animate into an X when open */
+.hamburger.open span:nth-child(1) {
+  transform: translateY(8px) rotate(45deg);
+}
+.hamburger.open span:nth-child(2) {
+  opacity: 0;
+}
+.hamburger.open span:nth-child(3) {
+  transform: translateY(-8px) rotate(-45deg);
+}
+
+/* Mobile layout */
+@media (max-width: 700px) {
+  .hamburger {
+    display: flex;
+  }
+
+  .nav-links {
+    display: none;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 16px;
+    margin-top: 16px;
+    padding-top: 16px;
+    border-top: 1px solid rgba(255, 255, 255, 0.2);
+  }
+  .nav-links.open {
+    display: flex;
+  }
+
+  .admin-btn,
+  .nav-logout {
+    width: 100%;
+    text-align: center;
+  }
+}
+ 
+ 
 /* Hero */
 .hero {
   text-align: center;
