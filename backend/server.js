@@ -2,6 +2,8 @@ import express from "express";
 import cors from "cors";
 import dotenv from "dotenv";
 import weatherRouter from "./routes/weather.js";
+import harvestsRouter from "./routes/harvests.js";
+import officersRouter from "./routes/officers.js";
 
 dotenv.config();
 
@@ -18,6 +20,8 @@ app.get("/", (req, res) => {
 });
 
 app.use("/weather", weatherRouter);
+app.use("/harvests", harvestsRouter);
+app.use("/officers", officersRouter);
 
 app.listen(PORT, () => {
   console.log(`Server running on http://localhost:${PORT}`);
