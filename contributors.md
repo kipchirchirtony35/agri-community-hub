@@ -14,7 +14,8 @@
 
 ### Kipchirchir Tony
 - Set up project structure
-- Created header component
+- Created header componentCompress-Archive -Path * -DestinationPath ..\agri-community-hub.zip
+
 - Implemented API calls
 - Code review for all PRs
 
