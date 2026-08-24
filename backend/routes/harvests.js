@@ -1,11 +1,15 @@
-const express = require('express');
+import express from "express";
+import { PrismaClient } from "@prisma/client";
+import { normaliseToKg } from "../utils/conversion.js";
+import { authenticate } from "../middleware/auth.js";
+
 const router = express.Router();
-const { PrismaClient } = require('@prisma/client');
 const prisma = new PrismaClient();
-const { normaliseToKg } = require('../utils/conversion');
 
 // Middleware mockup for authentication simulation
 // req.user = { id: 'uuid', role: 'FARMER' | 'OFFICER' | 'ADMIN', county: 'Nairobi' }
+
+router.use(authenticate);
 
 // --- GET /harvests (Scoped by role) ---
 router.get('/', async (req, res) => {
@@ -135,4 +139,4 @@ router.get('/stats', async (req, res) => {
 // --- GET, PATCH, DELETE for individual harvests ---
 // (Owner or Admin checks apply here)
 
-module.exports = router;
+export default router;

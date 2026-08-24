@@ -1,6 +1,8 @@
-const express = require('express');
+import express from "express";
+import { PrismaClient } from "@prisma/client";
+import { authenticate, authorize } from "../middleware/auth.js";
+
 const router = express.Router();
-const { PrismaClient } = require('@prisma/client');
 const prisma = new PrismaClient();
 
 // --- GET /officers (Public directory with filters) ---
@@ -24,7 +26,7 @@ router.get('/', async (req, res) => {
 });
 
 // --- POST /officers (Admin Only) ---
-router.post('/', async (req, res) => {
+router.post('/', authenticate, authorize("ADMIN"), async (req, res) => {
   try {
     // Check if req.user.role === 'ADMIN'
     const { userId, fullName, email, phoneNumber, county, specialisation } = req.body;
@@ -40,7 +42,7 @@ router.post('/', async (req, res) => {
 });
 
 // --- DELETE /officers/{id} (Soft Delete by Default) ---
-router.delete('/:id', async (req, res) => {
+router.delete('/:id', authenticate, authorize("ADMIN"), async (req, res) => {
   try {
     // Check if req.user.role === 'ADMIN'
     const { id } = req.params;
@@ -56,4 +58,4 @@ router.delete('/:id', async (req, res) => {
   }
 });
 
-module.exports = router;
+export default router;

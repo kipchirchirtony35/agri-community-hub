@@ -19,6 +19,7 @@ app.get("/", (req, res) => {
   });
 });
 
+app.use("/api/auth", authRouter);
 app.use("/weather", weatherRouter);
 app.use("/harvests", harvestsRouter);
 app.use("/officers", officersRouter);
