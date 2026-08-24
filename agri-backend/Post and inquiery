@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Farmers Association</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: #f1f8f3;
+            color: #333;
+        }
+
+        header {
+            background: #2e7d32;
+            color: white;
+            padding: 25px;
+            text-align: center;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 650px;
+            margin: 40px auto;
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+
+        h2 {
+            color: #2e7d32;
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-top: 15px;
+            margin-bottom: 6px;
+            font-weight: bold;
+        }
+
+        input,
+        textarea {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            font-size: 16px;
+        }
+
+        textarea {
+            height: 150px;
+            resize: vertical;
+        }
+
+        button {
+            width: 100%;
+            margin-top: 20px;
+            padding: 13px;
+            background: #2e7d32;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-size: 17px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background: #1b5e20;
+        }
+
+        #message {
+            margin-top: 15px;
+            text-align: center;
+            font-weight: bold;
+        }
+    </style>
+</head>
+
+<body>
+
+<header>
+    <h1>Farmers Association</h1>
+    <p>Share your farming experience or ask us a question</p>
+</header>
+
+<div class="container">
+
+    <h2>Farmer Inquiry / Post</h2>
+
+    <form id="farmerForm">
+
+        <label for="name">Farmer Name</label>
+        <input
+            type="text"
+            id="name"
+            placeholder="Enter your name"
+            required
+        >
+
+        <label for="contact">Contact Information</label>
+        <input
+            type="text"
+            id="contact"
+            placeholder="Phone number or email"
+            required
+        >
+
+        <label for="post">Your Message</label>
+        <textarea
+            id="post"
+            placeholder="Share your farming experience or ask your question..."
+            required
+        ></textarea>
+
+        <button type="submit">
+            Submit
+        </button>
+
+    </form>
+
+    <div id="message"></div>
+
+</div>
+
+<script>
+
+    const form = document.getElementById("farmerForm");
+    const message = document.getElementById("message");
+
+    form.addEventListener("submit", async function(event) {
+
+        event.preventDefault();
+
+        const farmerData = {
+            name: document.getElementById("name").value,
+            contact: document.getElementById("contact").value,
+            post: document.getElementById("post").value
+        };
+
+        try {
+
+            const response = await fetch("http://localhost:5000/api/inquiries", {
+                method: "POST",
+
+                headers: {
+                    "Content-Type": "application/json"
+                },
+
+                body: JSON.stringify(farmerData)
+            });
+
+            const data = await response.json();
+
+            if (response.ok) {
+
+                message.textContent = "Your message has been submitted successfully!";
+                message.style.color = "green";
+
+                form.reset();
+
+            } else {
+
+                message.textContent = data.message || "Something went wrong.";
+                message.style.color = "red";
+
+            }
+
+        } catch (error) {
+
+            console.error(error);
+
+            message.textContent =
+                "Unable to connect to the server.";
+
+            message.style.color = "red";
+        }
+
+    });
+
+</script>
+
+</body>
+</html>
