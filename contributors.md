@@ -37,4 +37,7 @@
 
 
 ### Ignitaus John 
+- Post model + GET/POST /posts
+- Inquiry model + GET/POST /inquiries
+- PATCH /inquiries/:id for officer replies/status
 
