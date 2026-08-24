@@ -1,8 +1,13 @@
 const express = require("express");
+const authRoutes = require("./routes/auth");
 
 const app = express();
 
+// Middleware
 app.use(express.json());
+
+// Routes
+app.use("/api/auth", authRoutes);
 
 // Test route
 app.get("/", (req, res) => {
