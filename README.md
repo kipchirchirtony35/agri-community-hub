@@ -6,13 +6,12 @@
 - **Date:** August 14, 2026
 
 ## Project Description
-Brief description of what you built and why.
+ The Agriconnect App lets farmers sign up with just their name and contact info and post questions or share farming experiences. Advantages? It's simple, easy to use, and helps farmers ask questions and share knowledge quickly. It encourages community discussions. Disadvantages? Without moderation, incorrect advice might appear. It needs internet access, and doesn't verify identities. So, it's quick and accessible, but basic.
 
 ## Technologies Used
 - HTML5
 - CSS3
 - JavaScript
-- (list all technologies)
 
 ## Features
 - Feature 1
