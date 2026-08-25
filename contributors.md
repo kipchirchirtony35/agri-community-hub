@@ -37,7 +37,7 @@
 ### Philip Biven
 - Build User schema + bcrypt password hashing
 - POST /auth/register, /auth/login, JWT issuing 
-- Role-check middleware for protected routes 
+- Role-check middleware for protected routes. 
 
 ### Ignitaus John 
 - Post model + GET/POST /posts
