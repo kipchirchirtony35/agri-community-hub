@@ -4,6 +4,7 @@ import dotenv from "dotenv";
 import weatherRouter from "./routes/weather.js";
 import harvestsRouter from "./routes/harvests.js";
 import officersRouter from "./routes/officers.js";
+import authRouter from "./routes/auth.js";
 
 dotenv.config();
 
