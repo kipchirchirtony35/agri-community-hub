@@ -30,7 +30,9 @@ enum Quality {
 
 model User {
   id        String    @id @default(uuid())
+  name      String
   email     String    @unique
+  password  String
   role      Role      @default(FARMER)
   harvests  Harvest[]
   officer   Officer?
