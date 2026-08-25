@@ -5,6 +5,7 @@ import weatherRouter from "./routes/weather.js";
 import harvestsRouter from "./routes/harvests.js";
 import officersRouter from "./routes/officers.js";
 import authRouter from "./routes/auth.js";
+import profileRouter from "./routes/profile.js";
 
 dotenv.config();
 
@@ -20,6 +21,7 @@ app.get("/", (req, res) => {
   });
 });
 
+app.use("/api/profile", profileRouter);
 app.use("/api/auth", authRouter);
 app.use("/weather", weatherRouter);
 app.use("/harvests", harvestsRouter);

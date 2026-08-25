@@ -11,31 +11,29 @@ router.post("/register", async (req, res) => {
   try {
     const { name, email, password, role } = req.body;
 
-    // Check required fields
     if (!name || !email || !password) {
       return res.status(400).json({
-        message: "Name, email and password are required"
+        message: "Name, email and password are required",
       });
     }
 
-    // Check if user already exists
-    const existingUser = await prisma.User.findOne({ email });
+    const existingUser = await prisma.user.findUnique({ where: { email } });
 
     if (existingUser) {
       return res.status(409).json({
-        message: "User already exists"
+        message: "User already exists",
       });
     }
 
-    // Hash password
     const hashedPassword = await bcrypt.hash(password, 10);
 
-    // Create user
-    const user = await prisma.User.create({
-      name,
-      email,
-      password: hashedPassword,
-      role: role || "member"
+    const user = await prisma.user.create({
+      data: {
+        name,
+        email,
+        password: hashedPassword,
+        role: role ? role.toUpperCase() : "FARMER",
+      },
     });
 
     res.status(201).json({
@@ -44,17 +42,17 @@ router.post("/register", async (req, res) => {
         id: user.id,
         name: user.name,
         email: user.email,
-        role: user.role
-      }
+        role: user.role,
+      },
     });
-
   } catch (error) {
     res.status(500).json({
       message: "Registration failed",
-      error: error.message
+      error: error.message,
     });
   }
 });
+
 // LOGIN
 router.post("/login", async (req, res) => {
   try {
@@ -62,37 +60,34 @@ router.post("/login", async (req, res) => {
 
     if (!email || !password) {
       return res.status(400).json({
-        message: "Email and password are required"
+        message: "Email and password are required",
       });
     }
 
-    // Find user
-    const user = await prisma.user.findOne({ where: { email } });
+    const user = await prisma.user.findUnique({ where: { email } });
 
     if (!user) {
       return res.status(401).json({
-        message: "Invalid email or password"
+        message: "Invalid email or password",
       });
     }
 
-    // Compare password with hashed password
     const passwordMatch = await bcrypt.compare(password, user.password);
 
     if (!passwordMatch) {
       return res.status(401).json({
-        message: "Invalid email or password"
+        message: "Invalid email or password",
       });
     }
 
-    // Create JWT
     const token = jwt.sign(
       {
-        id: user._id,
-        role: user.role
+        id: user.id,
+        role: user.role,
       },
       process.env.JWT_SECRET,
       {
-        expiresIn: "1d"
+        expiresIn: "1d",
       }
     );
 
@@ -100,18 +95,18 @@ router.post("/login", async (req, res) => {
       message: "Login successful",
       token,
       user: {
-        id: user._id,
+        id: user.id,
         name: user.name,
         email: user.email,
-        role: user.role
-      }
+        role: user.role,
+      },
     });
-
   } catch (error) {
     res.status(500).json({
       message: "Login failed",
-      error: error.message
+      error: error.message,
     });
   }
 });
+
 export default router;
