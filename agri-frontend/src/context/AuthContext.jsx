@@ -1,89 +1,96 @@
 import { createContext, useContext, useEffect, useState } from "react";
-import { findOfficerByUsername } from "../data/officers";
-import { readJSON, writeJSON } from "../utils/storage";
+import { apiFetch } from "../utils/api";
 
 const AuthContext = createContext(null);
 const SESSION_KEY = "agri.session";
-const MEMBERS_KEY = "agri.members";
+const TOKEN_KEY = "authToken";
 
-const ADMIN_CREDENTIALS = { username: "admin", password: "1234" };
+// Maps between the backend's Role enum and the frontend's route/tab names
+const BACKEND_TO_FRONTEND_ROLE = { FARMER: "member", OFFICER: "officer", ADMIN: "admin" };
+const FRONTEND_TO_BACKEND_ROLE = { member: "FARMER", officer: "OFFICER", admin: "ADMIN" };
 
-// Returns { user, error }. user is null on failure.
-function authenticate(role, username, password) {
-  const cleanUsername = username.trim();
-
-  if (!cleanUsername || !password.trim()) {
-    return { user: null, error: "Please fill in all fields." };
-  }
-
-  if (role === "admin") {
-    if (
-      cleanUsername === ADMIN_CREDENTIALS.username &&
-      password === ADMIN_CREDENTIALS.password
-    ) {
-      return { user: { username: cleanUsername, role: "admin", name: "Administrator" } };
-    }
-    return { user: null, error: "Invalid admin username or password." };
-  }
-
-  if (role === "officer") {
-    const officer = findOfficerByUsername(cleanUsername);
-    if (officer && officer.password === password) {
-      return {
-        user: {
-          username: officer.username,
-          role: "officer",
-          name: officer.name,
-          officerId: officer.id,
-        },
-      };
-    }
-    return { user: null, error: "Invalid officer username or password." };
-  }
-
-  if (role === "member") {
-    // Members self-register on first login; afterwards their password
-    // is checked against what was stored at signup.
-    const members = readJSON(MEMBERS_KEY, {});
-    const key = cleanUsername.toLowerCase();
-    const existing = members[key];
-
-    if (!existing) {
-      if (password.length < 4) {
-        return { user: null, error: "Password must be at least 4 characters." };
-      }
-      members[key] = { username: cleanUsername, password };
-      writeJSON(MEMBERS_KEY, members);
-      return { user: { username: cleanUsername, role: "member", name: cleanUsername } };
-    }
-
-    if (existing.password === password) {
-      return { user: { username: existing.username, role: "member", name: existing.username } };
-    }
-    return { user: null, error: "Incorrect password for this member account." };
-  }
-
-  return { user: null, error: "Unknown login type." };
+function toFrontendUser(apiUser) {
+  return {
+    id: apiUser.id,
+    name: apiUser.name,
+    email: apiUser.email,
+    role: BACKEND_TO_FRONTEND_ROLE[apiUser.role] || apiUser.role,
+  };
 }
 
 export function AuthProvider({ children }) {
-  const [user, setUser] = useState(() => readJSON(SESSION_KEY, null));
+  const [user, setUser] = useState(() => {
+    const saved = localStorage.getItem(SESSION_KEY);
+    return saved ? JSON.parse(saved) : null;
+  });
+  const [ready, setReady] = useState(false);
+
+  // On first load, if a token exists, confirm it's still valid and refresh
 
   useEffect(() => {
-    if (user) writeJSON(SESSION_KEY, user);
-    else localStorage.removeItem(SESSION_KEY);
-  }, [user]);
+    const token = localStorage.getItem(TOKEN_KEY);
+    if (!token) {
+      setReady(true);
+      return;
+    }
 
-  const login = (role, username, password) => {
-    const result = authenticate(role, username, password);
-    if (result.user) setUser(result.user);
-    return result;
+    apiFetch("/api/profile").then(({ ok, data }) => {
+      if (ok && data.success) {
+        const freshUser = toFrontendUser(data.data);
+        setUser(freshUser);
+        localStorage.setItem(SESSION_KEY, JSON.stringify(freshUser));
+      } else {
+        // Token invalid/expired — clear the stale session
+        localStorage.removeItem(TOKEN_KEY);
+        localStorage.removeItem(SESSION_KEY);
+        setUser(null);
+      }
+      setReady(true);
+    });
+  }, []);
+
+  const login = async (email, password) => {
+    const { ok, data } = await apiFetch("/api/auth/login", {
+      method: "POST",
+      body: JSON.stringify({ email, password }),
+    });
+
+    if (!ok) {
+      return { user: null, error: data.message || "Login failed." };
+    }
+
+    localStorage.setItem(TOKEN_KEY, data.token);
+    const frontendUser = toFrontendUser(data.user);
+    localStorage.setItem(SESSION_KEY, JSON.stringify(frontendUser));
+    setUser(frontendUser);
+
+    return { user: frontendUser };
   };
 
-  const logout = () => setUser(null);
+  const register = async (name, email, password, frontendRole) => {
+    const backendRole = FRONTEND_TO_BACKEND_ROLE[frontendRole] || "FARMER";
+
+    const { ok, data } = await apiFetch("/api/auth/register", {
+      method: "POST",
+      body: JSON.stringify({ name, email, password, role: backendRole }),
+    });
+
+    if (!ok) {
+      return { user: null, error: data.message || "Registration failed." };
+    }
+
+    // Registration succeeded — log in immediately to get a token
+    return login(email, password);
+  };
+
+  const logout = () => {
+    localStorage.removeItem(TOKEN_KEY);
+    localStorage.removeItem(SESSION_KEY);
+    setUser(null);
+  };
 
   return (
-    <AuthContext.Provider value={{ user, login, logout }}>
+    <AuthContext.Provider value={{ user, ready, login, register, logout }}>
       {children}
     </AuthContext.Provider>
   );
