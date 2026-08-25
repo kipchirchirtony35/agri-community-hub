@@ -160,11 +160,11 @@ This document highlights those difficulties and how we addressed them.
 By overcoming these challenges, our hub became stronger, more secure, and more collaborative.
 
 
-## Screenshots (optional)
-![Screenshot description](path/to/screenshot.png)
+## Project screenshot
+![Screenshot description](images/project-screenshoot.png)
 
-## Live Demo (if deployed)
-[View Live Demo](https://your-deployed-url.com)
+## Live Demo 
+[View Live Demo](agri-community-hub.vercel.app)
 
 ## ✅ Conclusion
 
