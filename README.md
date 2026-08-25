@@ -160,7 +160,7 @@ This document highlights those difficulties and how we addressed them.
 By overcoming these challenges, our hub became stronger, more secure, and more collaborative.
 
 
-## Project screenshot
+## Project screenshot.
 ![Screenshot description](images/project-screenshoot.png)
 
 ## Live Demo 
