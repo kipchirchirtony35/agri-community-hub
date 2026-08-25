@@ -1,9 +1,14 @@
 # Week 12: Community Hub Project
 
-## Author
+## Authors
 - **Name:** Kipchirchir Tony 
 - **GitHub:** [kipchirchirtony35](https://github.com/kipochirchirtony35)
 - **Date:** August 14, 2026
+- **Name:** Gladwell muthoni
+- **GitHub:**  [gladwellmuthoni]
+  
+- **Name:** John Ignatius
+- **GitHub:**  [mrignatio7]
 
 ## Project Description
  The Agriconnect App lets farmers sign up with just their name and contact info and post questions or share farming experiences. Advantages? It's simple, easy to use, and helps farmers ask questions and share knowledge quickly. It encourages community discussions. Disadvantages? Without moderation, incorrect advice might appear. It needs internet access, and doesn't verify identities. So, it's quick and accessible, but basic.
