@@ -1,14 +1,12 @@
 import { useMemo } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
-import { officers } from "../data/officers";
 import { readJSON } from "../utils/storage";
 
 export default function OfficerDashboard() {
   const { user, logout } = useAuth();
   const navigate = useNavigate();
 
-  const officer = officers.find((o) => o.id === user.officerId);
   const { inquiries, harvests, posts } = useMemo(
     () => ({
       inquiries: readJSON("inquiries", []),
