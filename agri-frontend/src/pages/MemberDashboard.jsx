@@ -8,7 +8,7 @@ export default function MemberDashboard() {
   const navigate = useNavigate();
 
   const { harvests, posts, inquiries } = useMemo(() => {
-    const name = user.username.toLowerCase();
+    const name = user.name.toLowerCase();
     const allHarvests = readJSON("harvests", []);
     const allPosts = readJSON("posts", []);
     const allInquiries = readJSON("inquiries", []);
@@ -17,7 +17,7 @@ export default function MemberDashboard() {
       posts: allPosts.filter((p) => p.author?.toLowerCase() === name),
       inquiries: allInquiries.filter((i) => i.name?.toLowerCase() === name),
     };
-  }, [user.username]);
+  }, [user.name]);
 
   const handleLogout = () => {
     logout();
