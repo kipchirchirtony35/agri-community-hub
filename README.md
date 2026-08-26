@@ -1,35 +1,48 @@
 # Week 12: Community Hub Project
 
 ## Authors
-- **Name:** Kipchirchir Tony 
+
+- **Name:** Kipchirchir Tony
 - **GitHub:** [kipchirchirtony35](https://github.com/kipochirchirtony35)
 - **Date:** August 14, 2026
 - **Name:** Gladwell muthoni
-- **GitHub:**  [gladwellmuthoni]
-  
+- **GitHub:** [gladwellmuthoni]
 - **Name:** John Ignatius
-- **GitHub:**  [mrignatio7]
+- **GitHub:** [mrignatio7]
 
- - **Name:** Philip Biven
- - **GitHub:** [Philipbiven-pixel]
+- **Name:** Philip Biven
+- **GitHub:** [Philipbiven-pixel]
 
- - **Name:** Okolla Immaculate
- - **GitHub:** [okolla-immaculate]
+- **Name:** Okolla Immaculate
+- **GitHub:** [okolla-immaculate]
 
 ## Project Description
- The Agriconnect App lets farmers sign up with just their name and contact info and post questions or share farming experiences. Advantages? It's simple, easy to use, and helps farmers ask questions and share knowledge quickly. It encourages community discussions. Disadvantages? Without moderation, incorrect advice might appear. It needs internet access, and doesn't verify identities. So, it's quick and accessible, but basic.
+
+The Agriconnect App lets farmers sign up with just their name and contact info and post questions or share farming experiences. Advantages? It's simple, easy to use, and helps farmers ask questions and share knowledge quickly. It encourages community discussions. Disadvantages? Without moderation, incorrect advice might appear. It needs internet access, and doesn't verify identities. So, it's quick and accessible, but basic.
 
 ## Technologies Used
+
 - HTML5
 - CSS3
 - JavaScript
+- React
+- React router
+- MongoDB
+- Node
+- Render
+- Vercel
+- Open weather map API
 
 ## Features
-- Feature 1
-- Feature 2
-- Feature 3
+
+- User registration and login.
+- Role based access.
+- Farmer posts.
+- inquiries
+- API intergration.
 
 ## How to Run
+
 1. Clone this repository
 2. Open `index.html` in your browser
    OR
@@ -39,7 +52,6 @@
 
 Building our community hub taught us valuable lessons in both **frontend development** and **backend/database management**.  
 This document summarizes key takeaways to guide future contributors.
-
 
 ## 🧩 Frontend Development
 
@@ -85,19 +97,19 @@ This document summarizes key takeaways to guide future contributors.
 
 ## 🌱 Growth Mindset
 
-- **Iterate often** → Launch minimal features, then improve based on feedback.  
-- **Balance design & function** → A hub should be visually inviting and technically solid.  
+- **Iterate often** → Launch minimal features, then improve based on feedback.
+- **Balance design & function** → A hub should be visually inviting and technically solid.
 - **Encourage ownership** → Let members add projects, moderate sections, or suggest features.
 
 ---
 
 ## 📊 Roadmap Example
 
-| **Phase** | **Tech Focus** | **Community Focus** |
-|-----------|----------------|----------------------|
-| Month 1   | Static HTML/CSS site | Invite first members |
-| Month 2   | Add JS interactivity | Run first coding challenge |
-| Month 3   | Connect database (profiles, projects) | Launch project showcase |
+| **Phase** | **Tech Focus**                        | **Community Focus**        |
+| --------- | ------------------------------------- | -------------------------- |
+| Month 1   | Static HTML/CSS site                  | Invite first members       |
+| Month 2   | Add JS interactivity                  | Run first coding challenge |
+| Month 3   | Connect database (profiles, projects) | Launch project showcase    |
 
 ---
 
@@ -159,27 +171,25 @@ This document highlights those difficulties and how we addressed them.
 
 ## ✅ Lessons from Challenges
 
-- Test early and often across devices and browsers.  
-- Plan database schemas before coding.  
-- Use Git branches and pull requests to minimize conflicts.  
-- Document setup and contribution guidelines clearly.  
+- Test early and often across devices and browsers.
+- Plan database schemas before coding.
+- Use Git branches and pull requests to minimize conflicts.
+- Document setup and contribution guidelines clearly.
 - Build features that encourage community participation.
 
 ---
 
 By overcoming these challenges, our hub became stronger, more secure, and more collaborative.
 
-
 ## Project screenshot
+
 ![Screenshot description](images/project-screenshoot.png)
 
-## Live Demo 
+## Live Demo
+
 [View Live Demo](agri-community-hub.vercel.app)
 
 ## ✅ Conclusion
 
 Our community hub is more than code — it’s a space for collaboration, learning, and growth.  
 By applying these lessons, we ensure the hub remains **accessible, secure, and engaging** for everyone.
-
-
-
