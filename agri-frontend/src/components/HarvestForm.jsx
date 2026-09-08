@@ -12,8 +12,11 @@ export default function HarvestForm() {
     crop: "",
     quantity: "",
     unit: "kg",
+    price: "",
+    forSale: true,
     date: today(),
   });
+  
   const [error, setError] = useState("");
   const [confirmation, setConfirmation] = useState("");
 
@@ -24,9 +27,9 @@ export default function HarvestForm() {
   const handleSubmit = (e) => {
     e.preventDefault();
     setConfirmation("");
-
-    if (!form.farmerName.trim() || !form.crop.trim() || !form.quantity) {
-      setError("Please fill in your name, crop, and quantity.");
+    
+    if (!form.farmerName.trim() || !form.crop.trim() || !form.quantity || !form.price) {
+      setError("Please fill in your name, crop, quantity, and price.");
       return;
     }
     if (Number(form.quantity) <= 0) {
@@ -35,7 +38,12 @@ export default function HarvestForm() {
     }
 
     setError("");
-    const newHarvest = { ...form, farmerName: form.farmerName.trim(), id: Date.now() };
+    const newHarvest = {
+      ...form,
+      farmerName: form.farmerName.trim(),
+      price: Number(form.price) || 0,
+      id: Date.now(),
+    };
     const updated = [newHarvest, ...harvests];
     setHarvests(updated);
     writeJSON("harvests", updated);
@@ -73,6 +81,26 @@ export default function HarvestForm() {
             <option value="kg">kg</option>
             <option value="tons">tons</option>
             <option value="bags">bags</option>
+
+            <div className="row">
+              <input
+                type="number"
+                min="0"
+                step="any"
+                placeholder="Price per unit (KES) *"
+                value={form.price}
+                onChange={(e) => setForm({ ...form, price: e.target.value })}
+              />
+              <label className="checkbox-inline">
+                <input
+                  type="checkbox"
+                  checked={form.forSale}
+                  onChange={(e) => setForm({ ...form, forSale: e.target.checked })}
+                />
+                List for sale
+              </label>
+            </div>
+
           </select>
         </div>
         <input

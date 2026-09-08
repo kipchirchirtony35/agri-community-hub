@@ -1,5 +1,6 @@
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
+import { useCart } from "../context/CartContext";
 import { useState } from "react";
 
 const ROLE_LABEL = {
@@ -10,6 +11,7 @@ const ROLE_LABEL = {
 
 export default function Navbar() {
   const { user, logout } = useAuth();
+  const { count } = useCart();
   const navigate = useNavigate();
   const location = useLocation();
   const [menuOpen, setMenuOpen] = useState(false);
@@ -63,6 +65,14 @@ export default function Navbar() {
         <button type="button" className="nav-link" onClick={() => scrollToSection("inquiries")}>
           Inquiries
         </button>
+
+        <Link to="/shop" className="nav-link" onClick={() => setMenuOpen(false)}>
+          Shop
+        </Link>
+        <Link to="/cart" className="nav-link cart-link" onClick={() => setMenuOpen(false)}>
+          Cart {count > 0 && <span className="cart-badge">{count}</span>}
+        </Link>
+
         <button type="button" className="nav-link" onClick={() => scrollToSection("officers")}>
           Officers
         </button>

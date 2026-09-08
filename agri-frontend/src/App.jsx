@@ -6,6 +6,9 @@ import OfficerDashboard from "./pages/OfficerDashboard";
 import AdminDashboard from "./pages/AdminDashboard";
 import ProtectedRoute from "./components/ProtectedRoute";
 import Profile from "./pages/Profile";
+import Shop from "./pages/Shop";
+import Cart from "./pages/Cart";
+
 
 function App() {
   return (
@@ -36,6 +39,9 @@ function App() {
           </ProtectedRoute>
         }
       />
+
+      <Route path="/shop" element={<Shop />} />
+      <Route path="/cart" element={<Cart />} />
       <Route path="/profile" element={<Profile />} />
       <Route path="*" element={<Navigate to="/" replace />} />
     </Routes>
