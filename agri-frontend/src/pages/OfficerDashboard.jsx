@@ -1,11 +1,17 @@
-import { useMemo } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import { readJSON } from "../utils/storage";
+import { officers } from "../data/officers";
 
 export default function OfficerDashboard() {
   const { user, logout } = useAuth();
   const navigate = useNavigate();
+  const [orders, setOrders] = useState([]);
+
+  useEffect(() => {
+    setOrders(readJSON("orders", []));
+  }, []);
 
   const { inquiries, harvests, posts } = useMemo(
     () => ({
@@ -16,10 +22,16 @@ export default function OfficerDashboard() {
     []
   );
 
+  const officer = officers.find(
+    (o) => o.name.toLowerCase() === user.name.toLowerCase()
+  );
+
   const handleLogout = () => {
     logout();
     navigate("/login");
   };
+
+  const totalRevenue = orders.reduce((sum, o) => sum + o.total, 0);
 
   return (
     <div className="dashboard">
@@ -35,6 +47,39 @@ export default function OfficerDashboard() {
       </header>
 
       <div className="dashboard-grid">
+        <div className="dashboard-card wide">
+          <h2>🧾 Marketplace Orders ({orders.length})</h2>
+          {orders.length === 0 ? (
+            <p className="empty-state">No orders placed yet.</p>
+          ) : (
+            <>
+              <p className="muted">
+                Total order value: KES {totalRevenue.toLocaleString()}
+              </p>
+              {orders.map((o) => (
+                <div key={o.id} className="dashboard-item">
+                  <div className="post-header">
+                    <strong>{o.buyer}</strong>
+                    <span className="muted">{o.date}</span>
+                  </div>
+                  {o.items.map((item, idx) => (
+                    <div key={idx} className="muted">
+                      {item.crop} — {item.qty} {item.unit} from{" "}
+                      <strong>{item.farmerName}</strong>{" "}
+                      {item.fulfilled ? (
+                        <span className="status-badge fulfilled">Fulfilled</span>
+                      ) : (
+                        <span className="status-badge pending">Pending</span>
+                      )}
+                    </div>
+                  ))}
+                  <p>Total: KES {o.total.toLocaleString()}</p>
+                </div>
+              ))}
+            </>
+          )}
+        </div>
+
         <div className="dashboard-card wide">
           <h2>✉️ Farmer Inquiries ({inquiries.length})</h2>
           {inquiries.length === 0 ? (

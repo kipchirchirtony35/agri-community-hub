@@ -11,14 +11,16 @@ export default function Cart() {
   const [placed, setPlaced] = useState(false);
 
   const handleCheckout = () => {
+
     const order = {
       id: Date.now(),
       buyer: user?.name || "Guest",
-      items,
+      items: items.map((i) => ({ ...i, fulfilled: false })), // ← was just `items`
       total,
       date: new Date().toISOString().split("T")[0],
       status: "pending",
     };
+
     const orders = readJSON("orders", []);
     writeJSON("orders", [order, ...orders]);
     clearCart();
