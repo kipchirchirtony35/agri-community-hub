@@ -503,3 +503,32 @@ button:disabled { background: #9ccc9f; cursor: not-allowed; }
   font-weight: 700;
   margin-left: 4px;
 }
+
+/*order */
+.order-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+}
+.status-badge {
+  font-size: 0.75rem;
+  font-weight: 600;
+  padding: 2px 8px;
+  border-radius: 999px;
+  white-space: nowrap;
+}
+.status-badge.fulfilled { 
+  background: #e0f2e1; 
+  color: #2e7d32; 
+}
+
+.status-badge.pending { 
+  background: #fff3cd;
+  color: #8a6d00; 
+}
+
+.ghost-btn.small { 
+  font-size: 0.8rem; 
+  padding: 4px 10px; 
+}
